@@ -1,0 +1,43 @@
+version: '3.3'
+
+networks:
+  problem1:
+
+services:
+  app-main:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    volumes: 
+      - ../configs/app_config.yml:/configs/app_config.yml
+    container_name: app-main
+    restart: always
+    ports:
+      - 8808:8808
+    networks: 
+      - problem1
+    
+  app-db:
+    image: mysql/mysql-server:5.7
+    volumes:
+      - db_data2:/var/lib/mysql
+    container_name: app-db
+    restart: always
+    ports:
+      - "5555:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: problem1
+      MYSQL_DATABASE: problem1
+      MYSQL_USER: problem1
+      MYSQL_PASSWORD: problem1
+    networks: 
+      - problem1
+  app-redis:
+    image: "redis:alpine"
+    container_name: app-redis
+    ports:
+      - "6379:6379"
+    networks: 
+      - problem1
+volumes:
+    db_data2: {}

@@ -1,0 +1,15 @@
+app_config:
+  app_port: 8808
+db_config:
+  db_name: problem1
+  db_username: problem1
+  db_password: problem1
+  db_host: localhost
+  db_port: 5555
+  db_type: mysql
+redis_config:
+  redis_server: localhost:6379
+  redis_password: ""
+  redis_database: 0
+test_config:
+  test_url: http://192.168.3.20:8808
