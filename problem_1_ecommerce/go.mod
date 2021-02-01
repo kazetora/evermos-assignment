@@ -8,4 +8,5 @@ require (
 	github.com/go-redis/redis/v8 v8.4.11
 	github.com/jinzhu/gorm v1.9.16
 	github.com/spf13/viper v1.7.1
+	github.com/ventu-io/go-shortid v0.0.0-20201117134242-e59966efd125
 )

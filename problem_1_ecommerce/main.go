@@ -9,6 +9,7 @@ import (
 	"github.com/kazetora/evermos-assignment/problem_1_ecommerce/configs"
 	"github.com/kazetora/evermos-assignment/problem_1_ecommerce/database"
 	"github.com/kazetora/evermos-assignment/problem_1_ecommerce/routers"
+	"github.com/kazetora/evermos-assignment/problem_1_ecommerce/storage"
 	"github.com/kazetora/evermos-assignment/problem_1_ecommerce/taskqueue"
 )
 
@@ -21,7 +22,7 @@ func main() {
 	database.Setup()
 
 	// setup redis connection
-	// storage.Setup()
+	storage.Setup()
 
 	// setup task queue
 	taskqueue.Setup()

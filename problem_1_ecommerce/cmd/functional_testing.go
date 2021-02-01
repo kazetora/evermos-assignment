@@ -30,7 +30,7 @@ const (
 )
 
 func main() {
-	testCases := []int{10, 20, 30, 50, 100, 200}
+	testCases := []int{10, 100, 200, 300, 500, 1000}
 	successCount = []int{0, 0, 0, 0, 0, 0}
 	failCount = []int{0, 0, 0, 0, 0, 0}
 	inventoryExist = false
@@ -57,7 +57,7 @@ func main() {
 		wg.Wait()
 
 		fmt.Printf("Result: %d success, %d fail\n", successCount[idx], failCount[idx])
-		if successCount[idx] == testcase/2 {
+		if successCount[idx] <= testcase/2 {
 			fmt.Println("SUCCESS")
 		} else {
 			fmt.Println("FAIL")
@@ -118,7 +118,7 @@ func task(wg *sync.WaitGroup, userID, productID uint, quantity, idx int) error {
 	}
 
 	decoder := json.NewDecoder(response.Body)
-	transaction := models.Transactions{}
+	transaction := map[string]string{}
 
 	if err := decoder.Decode(&transaction); err != nil {
 		log.Printf("Error in decoding response body: %s", err.Error())
@@ -126,7 +126,7 @@ func task(wg *sync.WaitGroup, userID, productID uint, quantity, idx int) error {
 	}
 
 	for {
-		response, err := http.Get(fmt.Sprintf("%s/api/v1/transaction/%d", os.Getenv("TEST_URL"), transaction.ID))
+		response, err := http.Get(fmt.Sprintf("%s/api/v1/transaction/%s", os.Getenv("TEST_URL"), transaction["transaction_key"]))
 		if err != nil {
 			log.Printf("Error in http get: %s", err.Error())
 			return err

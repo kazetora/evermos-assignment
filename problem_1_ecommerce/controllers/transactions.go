@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi"
-	"github.com/kazetora/evermos-assignment/problem_1_ecommerce/database"
 	"github.com/kazetora/evermos-assignment/problem_1_ecommerce/helpers"
 	"github.com/kazetora/evermos-assignment/problem_1_ecommerce/models"
+	"github.com/kazetora/evermos-assignment/problem_1_ecommerce/storage"
 )
 
 type TransactionResponse struct {
@@ -18,10 +18,8 @@ func GetTransactionStatus(w http.ResponseWriter, r *http.Request) {
 
 	id := chi.URLParam(r, "id")
 
-	var db = database.GetDatabase()
-	var transaction models.Transactions
-
-	if err := db.Where("id = ?", id).First(&transaction).Error; err != nil {
+	transaction, err := storage.GetTransaction(id)
+	if err != nil {
 		helpers.RespondError(w, http.StatusInternalServerError, err.Error())
 		return
 	}

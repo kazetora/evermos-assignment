@@ -9,6 +9,7 @@ import (
 	"github.com/kazetora/evermos-assignment/problem_1_ecommerce/helpers"
 	"github.com/kazetora/evermos-assignment/problem_1_ecommerce/models"
 	"github.com/kazetora/evermos-assignment/problem_1_ecommerce/requests"
+	"github.com/kazetora/evermos-assignment/problem_1_ecommerce/storage"
 	"github.com/kazetora/evermos-assignment/problem_1_ecommerce/taskqueue"
 )
 
@@ -27,7 +28,7 @@ func NewOrderController(db *gorm.DB) *OrderController {
 	}
 }
 
-// AddToCart create new order
+// AddToCart add item to current order
 func (c *OrderController) AddToCart(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 
@@ -39,27 +40,38 @@ func (c *OrderController) AddToCart(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	// create a transaction
-	transaction := models.Transactions{
-		UserID: req.UserID,
-		Status: models.TransactionStatusUnprocessed,
-	}
+	transactionKey, err := storage.RegisterTransaction(models.TransactionCache{
+		UserID:    req.UserID,
+		Status:    models.TransactionStatusUnprocessed,
+		ProductID: req.ProductID,
+		Quantity:  req.Quantity,
+	})
 
-	if err := c.Db.Create(&transaction).Error; err != nil {
-		helpers.RespondError(w, http.StatusInternalServerError, err.Error())
+	if err != nil {
+		helpers.RespondError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	err := taskqueue.PublshToOrderTaskQueue(taskqueue.OrderTask{
-		UserID:        req.UserID,
-		TransactionID: transaction.ID,
-		ProductID:     req.ProductID,
-		Quantity:      req.Quantity,
-	})
+	err = taskqueue.PublshToOrderTaskQueue(transactionKey)
 
 	if err != nil {
 		helpers.RespondError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	helpers.RespondJSON(w, http.StatusCreated, transaction)
+	helpers.RespondJSON(w, http.StatusCreated, map[string]string{"transaction_key": transactionKey})
+}
+
+func createDBTransaction(db *gorm.DB, req requests.AddToCartRequest) (models.Transactions, error) {
+	transaction := models.Transactions{
+		UserID: req.UserID,
+		Status: models.TransactionStatusUnprocessed,
+	}
+
+	if err := db.Create(&transaction).Error; err != nil {
+		// helpers.RespondError(w, http.StatusInternalServerError, err.Error())
+		return transaction, err
+	}
+
+	return transaction, nil
 }

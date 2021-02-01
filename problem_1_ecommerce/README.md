@@ -59,4 +59,10 @@ go build -o build/func_test cmd/functional_testing.go
 The funcitonality test will setup the necessary database seeding and do the clean up after the test is completed.
 In the test scenario, it will run multiple test case of number of simultaneous requests, with the inventory quantity is only half of the total request. Each request will attempt add one item to the cart (the assumption is each request come from a unique user). In each test case we can see even with the increasing number of requests, only half of them are able to successfully add one item to their carts, and the other half failed.
 
-Due to limited environment I cannot confirm solution with number of request larger than few hundreds since I am using VM with limitted resources. However with more resourceful environment and some proper time to debug I think this solution can scale.
+~~Due to limited environment I cannot confirm solution with number of request larger than few hundreds since I am using VM with limitted resources. However with more resourceful environment and some proper time to debug I think this solution can scale.~~
+
+**Update** : I originally use database to store transaction data. This causing a huge performance problem especially when dealing wih more than `300` requests simultaneously. However I have improved this by using redis as trancsaction data storage instead of database. Now the server can easily handle up to `1000` requests simultaneously in my fairly low resource environment!  
+
+The final architecture of the API is shown in this picture
+
+![](addtocart.png)
