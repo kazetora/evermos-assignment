@@ -7,12 +7,23 @@ To execute the program:
 python3 solution.py
 ```
 
-Input the values of A, B and C consecutively separated by single space.
+Input the layout matrix as it is and followed by the values of A, B and C consecutively separated by single space in a new line. See example bellow
 
 Example:
 ```
 $ python3 solution.py
+########
+#......#
+#.###..#
+#...#.##
+#X#....#
+########
 3 4 3
+```
+
+The program will output like this:
+
+```
 ########
 #$$$$$.#
 #$###$.#

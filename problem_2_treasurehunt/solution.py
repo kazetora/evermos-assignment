@@ -52,16 +52,31 @@ def drawFields(field, a , b, c):
 
 def main():
     
-    fields = [
-        "########",
-        "#......#",
-        "#.###..#",
-        "#...#.##",
-        "#X#....#",
-        "########"
-    ]
+    # fields = [
+    #     "########",
+    #     "#......#",
+    #     "#.###..#",
+    #     "#...#.##",
+    #     "#X#....#",
+    #     "########"
+    # ]
+
+    """
+########
+#......#
+#.###..#
+#...#.##
+#X#....#
+########
+    """
+
+    fields = []
 
     params = input("")
+    while params[0] == '#':
+        fields += [params]
+        params = input("")
+
     a, b, c = params.split(" ")
     arrField = [list(a) for a in fields]
 
