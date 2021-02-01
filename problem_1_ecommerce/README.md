@@ -49,7 +49,7 @@ docker-compose build
 docker-compose up -d
 ```
 
-to run the test locally, buld the functionality test program inside ```cmd``` directory
+to run the test locally, build the functionality test program inside ```cmd``` directory
 
 ```
 go build -o build/func_test cmd/functional_testing.go 
