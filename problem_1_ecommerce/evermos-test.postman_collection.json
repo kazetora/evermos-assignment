@@ -1,0 +1,44 @@
+{
+	"info": {
+		"_postman_id": "c945af30-4bee-430f-81ef-a52b44d5b7f6",
+		"name": "evermos-test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "add to cart",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": 1,\r\n    \"product_id\": 1,\r\n    \"quantity\": 1\r\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/api/v1/order/addToCart",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"order",
+						"addToCart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTransaction",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	]
+}

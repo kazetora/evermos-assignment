@@ -66,3 +66,6 @@ In the test scenario, it will run multiple test case of number of simultaneous r
 The final architecture of the API is shown in this picture
 
 ![](addtocart.png)
+
+
+Finally, I also add [postman collection](evermos-test.postman_collection.json) for the APIs for testing purpose.
