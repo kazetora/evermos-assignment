@@ -69,3 +69,16 @@ The final architecture of the API is shown in this picture
 
 
 Finally, I also add [postman collection](evermos-test.postman_collection.json) for the APIs for testing purpose.
+
+
+**For Additional Points**
+
+I Have deployed API service on a cloud instance accessable publicly.
+
+Base URL: http://149.129.255.56
+
+The database is also accessable publicly for testing purpose (updating inventory)
+host: 149.129.255.56
+port: 5555
+
+Detail on db connection, please see config file.
